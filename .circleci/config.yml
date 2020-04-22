@@ -5,3 +5,5 @@ jobs:
     steps:
       - checkout
       - run: docker-compose build
+      - run: echo "$DOCKER_PASSWORD" | docker login -u ${DOCKER_ID} --password-stdin
+      - run: docker push
