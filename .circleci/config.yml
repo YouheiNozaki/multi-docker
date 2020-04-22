@@ -8,7 +8,8 @@ jobs:
       - image: nginx
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+        docker_layer_caching: true
       - run:
         name: Clientのpre-install
         command: docker build -t ryusou/multi-client -f ./client/Dockerfile.dev ./client
