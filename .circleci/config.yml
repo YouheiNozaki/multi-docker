@@ -13,11 +13,3 @@ jobs:
       - run:
           name: Docker push
           command: docker-compose push
-workflows:
-  version: 2.1
-  build:
-    jobs:
-      -build:
-        filters:
-          branches:
-            only: master
