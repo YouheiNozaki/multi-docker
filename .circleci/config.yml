@@ -1,0 +1,23 @@
+version: 2.1
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: docker-compose.ymlファイルでビルド
+          command: docker-compose build
+      - run:
+          name: Docker login
+          command: echo "$DOCKER_PASSWORD" | docker login -u ${DOCKER_ID} --password-stdin
+      - run:
+          name: Docker push
+          command: docker-compose push
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      -build:
+        filters:
+          branches:
+            only: master
