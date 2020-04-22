@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ryusoumtkh/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true ryusoumtkh/react-test yarn test -- --coverage
+
+after_success:
+  - docker build -t ryusoumtkh/multi-client ./client
+  - docker build -t ryusoumtkh/multi-nginx ./nginx
+  - docker build -t ryusoumtkh/multi-server ./server
+  - docker build -t ryusoumtkh/multi-worker ./worker
+
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+- docker push ryusoumtkh/multi-client
+- docker push ryusoumtkh/multi-nginx
+- docker push ryusoumtkh/multi-server
+- docker push ryusoumtkh/multi-worker
