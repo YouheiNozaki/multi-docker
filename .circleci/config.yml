@@ -7,6 +7,11 @@ jobs:
       - run: docker-compose build
       - run: echo "$DOCKER_PASSWORD" | docker login -u ${DOCKER_ID} --password-stdin
       - run: |
+          docker tag complex_client ryusoumtkh/complex_client
+          docker tag complex_nginx ryusoumtkh/complex_nginx
+          docker tag complex_server ryusoumtkh/complex_server
+          docker tag complex_worker ryusoumtkh/complex_worker
+      - run: |
           docker push complex_client
           docker push complex_nginx
           docker push complex_server
