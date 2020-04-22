@@ -1,16 +1,20 @@
 version: 2.1
 jobs:
   build:
-    machine: true
+    docker:
+      - image: circleci/node
     steps:
       - checkout
-      - run: docker-compose build
+      - run: docker build -t ryusoumtkh/multi-client ./client
+      - run: docker build -t ryusoumtkh/multi-nginx ./nginx
+      - run: docker build -t ryusoumtkh/multi-client ./client
+      - run: docker build -t ryusoumtkh/multi-server ./server
       - run: echo "$DOCKER_PASSWORD" | docker login -u ${DOCKER_ID} --password-stdin
-      - run: |
-          docker tag complex_client:latest ryusoumtkh/complex_client
-          docker tag complex_nginx:latest ryusoumtkh/complex_nginx
-          docker tag complex_api:latest ryusoumtkh/complex_api
-          docker tag complex_worker:latest ryusoumtkh/complex_worker
+      # - run: |
+      #     docker tag complex_client:latest ryusoumtkh/complex_client
+      #     docker tag complex_nginx:latest ryusoumtkh/complex_nginx
+      #     docker tag complex_api:latest ryusoumtkh/complex_api
+      #     docker tag complex_worker:latest ryusoumtkh/complex_worker
       - run: |
           docker push ryusoumtkh/complex_client
           docker push ryusoumtkh/complex_nginx
