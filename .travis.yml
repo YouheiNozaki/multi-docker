@@ -15,9 +15,9 @@ after_success:
   - docker build -t ryusoumtkh/multi-server ./server
   - docker build -t ryusoumtkh/multi-worker ./worker
 
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-- docker push ryusoumtkh/multi-client
-- docker push ryusoumtkh/multi-nginx
-- docker push ryusoumtkh/multi-server
-- docker push ryusoumtkh/multi-worker
+  - docker push ryusoumtkh/multi-client
+  - docker push ryusoumtkh/multi-nginx
+  - docker push ryusoumtkh/multi-server
+  - docker push ryusoumtkh/multi-worker
