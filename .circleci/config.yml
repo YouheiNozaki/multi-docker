@@ -1,15 +1,32 @@
 version: 2.1
 jobs:
   build:
-    machine: true
+    docker:
+      - image
+
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: docker-compose.ymlファイルでビルド
-          command: docker-compose build
+        name: Clientのpre-install
+        command: docker build -t ryusou/multi-client -f ./client/Dockerfile.dev ./client
+      - run:
+        name: Clientのtest
+        command: docker run ryusou/multi-client yarn test -- --coverage
+      - run:
+          name: ビルド
+          command: |
+            docker　build -t ryusou/multi-client ./client
+            docker　build -t ryusou/multi-nginx ./nginx
+            docker　build -t ryusou/multi-server ./server
+            docker　build -t ryusou/multi-worker ./worker
       - run:
           name: Docker login
           command: echo "$DOCKER_PASSWORD" | docker login -u ${DOCKER_ID} --password-stdin
       - run:
-          name: Docker push
-          command: docker-compose push
+          name: DockerHubにpush
+          command: |
+            docker push ryusou/multi-client
+            docker push ryusou/multi-nginx
+            docker push ryusou/multi-server
+            docker push ryusou/multi-worker
