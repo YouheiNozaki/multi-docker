@@ -2,8 +2,10 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image
-
+      - image: circleci/node:
+      - image: postgres:latest:
+      - image: redis:latest:
+      - image: nginx:
     steps:
       - checkout
       - setup_remote_docker
