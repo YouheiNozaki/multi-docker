@@ -16,6 +16,9 @@ services:
       context: ./nginx
     ports:
       - '3050:80'
+    volumes:
+      - /app/node_modules
+      - ./nginx:/app
   api:
     depends_on:
       - postgres
