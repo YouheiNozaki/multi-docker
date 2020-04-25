@@ -23,7 +23,6 @@ after_success:
   - docker push ryusoumtkh/multi-worker
 
 deploy:
-  edge: true
   provider: elasticbeanstalk
   region: ap-northeast-1
   app: multi-docker
