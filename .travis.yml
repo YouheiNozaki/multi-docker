@@ -21,3 +21,16 @@ after_success:
   - docker push ryusoumtkh/multi-nginx
   - docker push ryusoumtkh/multi-server
   - docker push ryusoumtkh/multi-worker
+
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: ap-northeast-1
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-ap-northeast-1-783222145546
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
